@@ -5,6 +5,7 @@ import {
   PageHeader,
   Popconfirm,
   Row,
+  Tooltip,
   message
 } from 'antd';
 import {
@@ -26,7 +27,7 @@ import {
 } from 'use-query-params';
 import { CustomDateParam } from 'utils/filter-params';
 import { displayDateTime } from 'utils/formats';
-import { widhFilters } from 'utils/filter-hoc';
+import { widhFilters } from 'utils/crud-hoc';
 
 import { modelActions } from './data/models';
 import FormFilter from './components/FilterForm';
@@ -42,6 +43,11 @@ import { ENTITY_NAME, ENTITY_PLURAL_NAME, PAGE_SIZE } from './constants';
 const FILTERS = {
   page: {
     label: 'Pagina',
+    type: NumberParam,
+    inForm: false
+  },
+  limit: {
+    label: 'Tamaño de pagina',
     type: NumberParam,
     inForm: false
   },
@@ -203,7 +209,7 @@ const CRUDPage = ({ filters }) => {
   // Execute every time to delete a filter, remove the filter on queryParams.
   const removeFilter = (filterKey, value) => {
     if (value) {
-      setQuery({ [filterKey]: query[filterKey].filter(val => val != value) });
+      setQuery({ [filterKey]: query[filterKey].filter(val => val !== value) });
     } else {
       setQuery({ [filterKey]: undefined });
     }
@@ -233,9 +239,13 @@ const CRUDPage = ({ filters }) => {
 
   const ActiveIcon = ({ value }) =>
     value ? (
+      <Tooltip title="Activo">
       <CheckCircleTwoTone twoToneColor="#52c41a" />
+      </Tooltip>
     ) : (
+      <Tooltip title="Inactivo">
       <MinusCircleOutlined twoToneColor="#ff4747" />
+      </Tooltip>
     );
 
   // Define columns to table, More info in https://ant.design/components/table/#Column
@@ -340,22 +350,22 @@ const CRUDPage = ({ filters }) => {
               placeholder="Ingrese email, nombre o apellido"
             />
           </Col>
-          <Col md={12} sm={24}>
+        </Row>
+        <Row className="form-filters">
+          <Col md={22} sm={24} className="container-applied-filters">
+            <AppliedFilters
+              filters={query}
+              removeFilter={removeFilter}
+              configFilters={FILTERS}
+            />
+          </Col>
+          <Col md={2} sm={24}>
             <Button
               onClick={() => setVisibleFilter(true)}
               className="btn-open-filters-form"
             >
               Filtros
             </Button>
-          </Col>
-        </Row>
-        <Row className="form-filters">
-          <Col md={24} sm={24} className="container-applied-filters">
-            <AppliedFilters
-              filters={query}
-              removeFilter={removeFilter}
-              configFilters={FILTERS}
-            />
           </Col>
         </Row>
 
@@ -365,8 +375,8 @@ const CRUDPage = ({ filters }) => {
           pagination={{
             total: objects.count,
             current: query.page ? query.page : 1,
-            pageSize: PAGE_SIZE,
-            showSizeChanger: false
+            pageSize: query.limit ? query.limit : PAGE_SIZE,
+            showSizeChanger: true
           }}
           loading={reqListLoading}
           footer={() =>

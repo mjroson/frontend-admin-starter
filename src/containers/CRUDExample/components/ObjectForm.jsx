@@ -40,10 +40,15 @@ const ObjectForm = ({ currentObj, onClose, create, update, formErrors }) => {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <Form
       form={form}
       onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
       layout="vertical"
       className="card-block"
       name="objectForm"
