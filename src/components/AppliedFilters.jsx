@@ -49,8 +49,8 @@ const AppliedFilters = ({ filters, removeFilter, configFilters = {} }) => {
   return (
     <>
       <b>Filtros aplicados: </b>
-      {activeFiltersKeys.map(value => (
-        <DisplayFilter filterKey={value} />
+      {activeFiltersKeys.map((value, index) => (
+        <DisplayFilter filterKey={value} key={index} />
       ))}
     </>
   );
