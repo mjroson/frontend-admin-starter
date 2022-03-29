@@ -106,8 +106,8 @@ const Dashboard = ({ history }) => {
     navigate(item.item.props.path);
   };
 
-  const onClickSidebar = () => {
-    onClickMenuItem()
+  const onClickSidebar = (item, index, selectedKeys) => {
+    onClickMenuItem(item, index, selectedKeys)
     checkSidebarCollapse();
   }
 
