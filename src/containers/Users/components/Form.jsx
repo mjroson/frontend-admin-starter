@@ -32,12 +32,12 @@ const ObjectForm = ({ currentObj, onClose, create, update, formErrors }) => {
     }
   }, [formErrors]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onFinish = data => {
-    console.log('On finish ', data);
+  const onFinish = values => {
+    console.log('On finish ', values);
     if (currentObj) {
-      update(data);
+      update({...currentObj, ...values});
     } else {
-      create(data);
+      create(values);
     }
   };
 
@@ -45,6 +45,7 @@ const ObjectForm = ({ currentObj, onClose, create, update, formErrors }) => {
     <Form
       form={form}
       onFinish={onFinish}
+      initialValues={{ is_active: false }}
       layout="vertical"
       className="card-block"
       name="objectForm"
@@ -70,18 +71,18 @@ const ObjectForm = ({ currentObj, onClose, create, update, formErrors }) => {
         <Input />
       </Form.Item>
 
-      <Form.Item label="Activo" name="is_actived" valuePropName="checked">
+      <Form.Item label="Activo" name="is_active" valuePropName="checked">
         <Switch />
       </Form.Item>
 
-      <div className="drawer-footer">
+      <Form.Item className="drawer-footer">
         <Button onClick={onClose} className="btn-forms-action">
           Cancelar
         </Button>
         <Button htmlType="submit" type="primary" className="btn-forms-action">
           {`${currentObj === null ? 'Crear' : 'Actualizar'}`}
         </Button>
-      </div>
+      </Form.Item>
     </Form>
   );
 };

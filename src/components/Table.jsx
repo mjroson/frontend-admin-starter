@@ -17,9 +17,17 @@ const ObjectsTable = props => {
     /**
      * Listen to table change for manager pagination and ordering.
      */
-    if (pagination.current !== currentPagination.current) {
+    console.log("Change pagination ")
+    console.log("pagination", pagination);
+    console.log("CurrentPagination ", currentPagination)
+    if (pagination.pageSize !== currentPagination.pageSize){
+      console.log("size change");
+      onChangeParams({ limit: currentPagination.pageSize });
+    }else if (pagination.current !== currentPagination.current) {
+      console.log("page change");
       onChangePage(currentPagination.current);
-    } else {
+    } 
+    else {
       if (sorter && sorter.field) {
         const ordering = `${
           sortedField.charAt(0) !== '-' && sortedField === sorter.field

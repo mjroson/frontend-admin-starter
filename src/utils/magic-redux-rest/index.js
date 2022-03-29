@@ -12,7 +12,9 @@ export const initialState = {
   loading: false,
   reqStatus: {}
 };
+
 const DEFAULT_PAGE_SIZE = 15;
+
 class ModelReduxRest {
   constructor(config, state = initialState, reducerManager = {}, actions = {}) {
     this.config = config;

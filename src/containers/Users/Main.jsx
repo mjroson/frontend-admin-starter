@@ -5,6 +5,7 @@ import {
   PageHeader,
   Popconfirm,
   Row,
+  Tooltip,
   message
 } from 'antd';
 import {
@@ -36,6 +37,11 @@ import { ENTITY_NAME, ENTITY_PLURAL_NAME, PAGE_SIZE } from './constants';
 const FILTERS = {
   page: {
     label: 'Pagina',
+    type: NumberParam,
+    inForm: false
+  },
+  limit: {
+    label: 'Tamaño de pagina',
     type: NumberParam,
     inForm: false
   },
@@ -101,6 +107,8 @@ const CRUDPage = ({ filters }) => {
   const [query, setQuery] = useQueryParams(filters);
 
   useEffect(() => {
+    console.log("Loadd..... ", query);
+    console.log(query.limit ? query.limit : PAGE_SIZE)
     // Example to dispatch list action and use success and error callBack functions (those are optionals)
     if (userActions) {
       dispatch(
@@ -143,7 +151,7 @@ const CRUDPage = ({ filters }) => {
   };
 
   const search = value => {
-    onChangeParams({ search: value });
+    onChangeParams({ search: value === '' ? undefined : value });
   };
 
   const applyFilter = values => {
@@ -151,8 +159,13 @@ const CRUDPage = ({ filters }) => {
     onChangeParams(values);
   };
 
-  const removeFilter = filterKey => {
-    setQuery({ [filterKey]: undefined });
+  // Execute every time to delete a filter, remove the filter on queryParams.
+  const removeFilter = (filterKey, value) => {
+    if (value) {
+      setQuery({ [filterKey]: query[filterKey].filter(val => val !== value) });
+    } else {
+      setQuery({ [filterKey]: undefined });
+    }
   };
 
   const OptionsTable = ({ value }) => (
@@ -169,9 +182,13 @@ const CRUDPage = ({ filters }) => {
 
   const ActiveIcon = ({ value }) =>
     value ? (
+      <Tooltip title="Activo">
       <CheckCircleTwoTone twoToneColor="#52c41a" />
+      </Tooltip>
     ) : (
+      <Tooltip title="Inactivo">
       <MinusCircleOutlined twoToneColor="#ff4747" />
+      </Tooltip>
     );
 
   const columns = [
@@ -296,7 +313,8 @@ const CRUDPage = ({ filters }) => {
           pagination={{
             total: objects.count,
             current: query.page ? query.page : 1,
-            pageSize: PAGE_SIZE
+            pageSize: query.limit ? query.limit : PAGE_SIZE,
+            showSizeChanger: true
           }}
           loading={reqListLoading}
           footer={() =>
@@ -307,7 +325,6 @@ const CRUDPage = ({ filters }) => {
           onChangeParams={onChangeParams}
           sortedField={query.ordering || ''}
           onChangePage={page => setQuery({ page })}
-          onUpdate={onUpdate}
           tableLayout="auto"
         />
       </PageHeader>
