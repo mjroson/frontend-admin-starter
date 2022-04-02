@@ -1,44 +1,329 @@
-.ant-layout {
-  min-height: 100%;
+@sidebar-width: 200px;
+@sidebar-width-tablet: 80px;
+@header-height: 64px;
 
-  & .ant-layout-sider {
-    min-height: 100%;
 
-    & .ant-layout-sider-zero-width-trigger {
-      z-index: 200;
-      top: 10px;
+
+#logo {
+  padding: 20px 0px;
+  font-size: 1.4em;
+  color: #08c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    font-size: 1.5em; 
+    color: #08c;
+  }
+
+  & .text {
+    margin-left: 5px;
+  }
+}
+
+.table-column-actions > :not(:first-child) {
+  margin-left: 15px;
+}
+
+.container-general-actions-right {
+  padding: 5px 0px;
+}
+
+.container-general-actions-right > * {
+  float: right;
+}
+
+.container-general-actions-right > :not(:last-child) {
+  margin-right: 10px;
+}
+
+
+
+.drawer-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9; // TODO : Parametrizer color
+  padding: 10px 16px;
+  background: #fff; // TODO : Parametrizer color
+  text-align: right;
+}
+
+.ant-page-header {
+  padding: 0px !important;
+  .btn-actions {
+    float: right;
+    margin-left: 5px;
+  }
+  & .ant-page-header-content,
+  & .ant-page-header-footer {
+    padding: 15px !important;
+  }
+}
+
+.generic-crud-section {
+  .search-icon {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  .form-filters {
+    min-height: 50px;
+    margin-top: 15px;
+
+    .container-applied-filters {
+      min-height: 40px;
+      flex: 1;
+      padding: 5px;
     }
 
-    & .ant-menu {
-      margin-top: 20px;
+    .btn-open-filters-form {
+      float: right;
+    }
+  }
+}
 
-      & .ant-menu {
-        margin-top: 0px;
+.btn-forms-action:not(:last-child) {
+  margin-right: 8px !important;
+}
+
+.ant-drawer-horizontal {
+  overflow-x: hidden !important;
+}
+
+.ant-drawer-horizontal .ant-drawer-content-wrapper {
+  width: 700px !important;
+  max-width: 100vw !important;
+}
+
+.ant-drawer-horizontal.drawer-detail .ant-drawer-body {
+  padding: 10px;
+}
+
+.ant-drawer-vertical {
+  max-width: calc(100% - @sidebar-width);
+  margin-left: @sidebar-width;
+
+  // & .ant-drawer-body {
+  //   padding-bottom: 50px;
+  // }
+}
+
+.ant-back-top {
+  right: 50px !important;
+  bottom: 30px !important;
+}
+
+.ant-calendar-picker {
+  width: 100%;
+}
+
+.sidebar-main .ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ant-space-item:last-of-type {
+  /**  Fix remove icon position in form items lists (dynamic list form) */
+  margin: 5px auto auto !important;
+}
+
+.ant-layout {
+  width: 100% !important;
+  & .ant-layout-sider.sidebar-main {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    z-index: 9;
+    overflow-x: hidden;
+  }
+
+  & .ant-layout {
+    margin-left: @sidebar-width;
+    & .ant-layout-header.header-main {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 0px;
+      z-index: 2;
+
+      & .header-menu {
+        flex: 1;
+      }
+    }
+
+    & .ant-layout-content.content-main {
+      background: #fff;
+      box-sizing: content-box;
+      min-height: unset;
+      padding: 15px;
+      margin: 15px 15px 15px 0px;
+    }
+  }
+}
+
+.ant-form {
+  & .ant-form-item {
+    width: 100%;
+
+    & .ant-picker {
+      width: 100%;
+    }
+  }
+}
+
+/* Fix table general styles */
+
+@media screen and (max-width: 970px) {
+  .ant-drawer-vertical {
+    max-width: calc(100% - @sidebar-width-tablet);
+    width: calc(100% - @sidebar-width-tablet);
+    margin-left: @sidebar-width-tablet;
+  }
+  .ant-layout {
+    & .ant-layout {
+      margin-left: @sidebar-width-tablet;
+
+      & .ant-layout-content.content-main {
+        margin: 10px 0px;
+        width: calc(100vw - @sidebar-width-tablet);
+        box-sizing: border-box;
+      }
+    }
+  }
+  #logo {
+    & .text {
+      display: none;
+    }
+  }
+}
+
+/* Fix mobile general styles */
+@media screen and (max-width: 700px) {
+  #logo {
+    & .text {
+      display: block;
+    }
+  }
+  .ant-layout {
+    .ant-layout-sider.sidebar-main {
+      min-height: calc(100vh - @header-height);
+      height: calc(100vh - @header-height);
+      top: @header-height;
+    }
+
+    & .ant-layout {
+      margin-left: 0px;
+      & .ant-layout-header.header-main {
+        width: 100vw;
+        // position: fixed;
+        max-width: 100vw;
+        top: calc(100vh - @header-height);
+      }
+
+      & .ant-layout-content.content-main {
+        margin: 5px 0px;
+        padding: 5px;
+        // box-sizing: content-box;
+        width: 100%;
+        min-height: 100%;
+
+        
+
+        & .ant-page-header {
+          & .ant-page-header-content,
+          & .ant-page-header-content,
+          & .ant-page-header-footer {
+            padding: 15px 0px !important;
+          }
+        }
+      }
+    }
+  }
+  & .ant-col {
+    width: 100%;
+  }
+
+  .ant-form {
+    & .ant-form-item {
+      width: 100%;
+
+      & .ant-picker {
+        width: 100%;
       }
     }
   }
 
-  & .ant-layout {
+  .ant-drawer-vertical {
     width: 100%;
+    max-width: 100%;
+    margin-left: 0px;
 
-    & .ant-layout-header {
-      background: #fff;
-      padding: 0;
-      position: sticky;
-      z-index: 100;
-      width: inherit;
-      max-width: inherit;
+    & .ant-drawer-content-wrapper {
+      height: 100vh !important;
     }
+  }
 
-    & .ant-layout-content {
-      padding: 24px;
-      background: #fff;
-      min-height: 100%;
-      margin-top: 20px;
+  .ant-drawer-horizontal {
+    overflow-x: auto !important;
+
+    & .ant-drawer-content-wrapper {
+      width: 100% !important;
+      height: 100vh !important;
+      left: 0px;
     }
   }
 }
+// /* Fix mobile general styles */
+// @media screen and (max-width: 700px) {
+//   .ant-back-top {
+//     right: 15px !important;
+//     bottom: 15px !important;
+//   }
 
-.global-notifications .ant-popover-inner-content {
-  padding: 0px;
-}
+//   .ant-page-header {
+//     & .ant-page-header-content,
+//     & .ant-page-header-content,
+//     & .ant-page-header-footer {
+//       padding: 15px 0px !important;
+//     }
+//   }
+
+//   .generic-crud-section {
+//     & .ant-input-search.ant-input-search-enter-button.ant-input-group-wrapper {
+//       width: 100% !important;
+//     }
+//     & .form-filters .btn-open-filters-form {
+//       width: 100%;
+//     }
+//   }
+
+//   .ant-drawer-vertical {
+//     width: 100% !important;
+//     left: 0px !important;
+//   }
+
+//   .ant-drawer-vertical .ant-drawer-content-wrapper {
+//     height: 100vh !important;
+//   }
+
+//   .ant-space.ant-space-horizontal.ant-space-align-start {
+//     // Fixed filters inline forms in segment
+//     flex-direction: column;
+//     border-bottom: solid 0.5px #efefef;
+//   }
+
+//   .ant-drawer-horizontal {
+//     overflow-x: auto !important;
+
+//     & .ant-drawer-content-wrapper {
+//       width: 100% !important;
+//       height: 100vh !important;
+//       left: 0px;
+//     }
+//   }
+// }

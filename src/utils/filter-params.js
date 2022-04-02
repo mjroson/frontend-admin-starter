@@ -18,3 +18,7 @@ export const DateRangeParam = {
       value ? moment(value).format(formatDateToParser) : value
     )
 };
+
+
+export const DateRangeBefore = CustomDateParam;
+export const DateRangeAfter = CustomDateParam;

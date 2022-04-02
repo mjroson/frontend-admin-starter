@@ -19,13 +19,8 @@ import SearchForm from 'components/SearchForm';
 import ObjectsTable from 'components/Table';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useQueryParams,
-  ArrayParam,
-  NumberParam,
-  StringParam
-} from 'use-query-params';
-import { CustomDateParam } from 'utils/filter-params';
+import { useQueryParams } from 'use-query-params';
+
 import { displayDate } from 'utils/formats';
 import { widhFilters } from 'utils/crud-hoc';
 
@@ -33,54 +28,8 @@ import { userActions } from './data/models';
 import FormFilter from './components/Filter';
 import ObjectForm from './components/Form';
 import { ENTITY_NAME, ENTITY_PLURAL_NAME, PAGE_SIZE } from './constants';
+import FILTERS from "./filters";
 
-const FILTERS = {
-  page: {
-    label: 'Pagina',
-    type: NumberParam,
-    inForm: false
-  },
-  limit: {
-    label: 'Tamaño de pagina',
-    type: NumberParam,
-    inForm: false
-  },
-  search: {
-    label: 'Buscador',
-    type: StringParam,
-    inForm: false
-  },
-  ordering: {
-    label: 'Orden',
-    type: StringParam,
-    inForm: false
-  },
-  first_name: {
-    label: 'Nombre',
-    type: StringParam,
-    inForm: true
-  },
-  last_name: {
-    label: 'Apellido',
-    type: StringParam,
-    inForm: true
-  },
-  date_joined: {
-    label: 'Fecha de registro',
-    type: CustomDateParam,
-    inForm: true
-  },
-  date_joined_range: {
-    label: 'Rango de recha de registro',
-    type: ArrayParam,
-    inForm: true
-  },
-  id: {
-    label: 'ID',
-    type: NumberParam,
-    inForm: false
-  }
-};
 
 const CRUDPage = ({ filters }) => {
   const dispatch = useDispatch();
@@ -155,6 +104,7 @@ const CRUDPage = ({ filters }) => {
   };
 
   const applyFilter = values => {
+    console.log("Filter form submit values ", values);
     setVisibleFilter(false);
     onChangeParams(values);
   };
@@ -164,7 +114,11 @@ const CRUDPage = ({ filters }) => {
     if (value) {
       setQuery({ [filterKey]: query[filterKey].filter(val => val !== value) });
     } else {
-      setQuery({ [filterKey]: undefined });
+      const cleanFilter = { [filterKey]: undefined };
+      if (FILTERS[filterKey].dependsOn) {
+        cleanFilter[FILTERS[filterKey].dependsOn] = undefined;
+      }
+      setQuery(cleanFilter);
     }
   };
 
@@ -290,21 +244,21 @@ const CRUDPage = ({ filters }) => {
           </Col>
         </Row>
         <Row className="form-filters">
-          <Col md={22} sm={24} className="container-applied-filters">
+          <div className="container-applied-filters">
             <AppliedFilters
               filters={query}
               removeFilter={removeFilter}
               configFilters={FILTERS}
             />
-          </Col>
-          <Col md={2} sm={24}>
+          </div>
+          <div >
             <Button
               onClick={() => setVisibleFilter(true)}
               className="btn-open-filters-form"
             >
               Filtros
             </Button>
-          </Col>
+          </div>
         </Row>
 
         <ObjectsTable

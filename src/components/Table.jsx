@@ -75,6 +75,7 @@ const ObjectsTable = props => {
       loading={loading}
       onChange={handleTableChange}
       bordered={true}
+      scroll={{ x: "100%" }}
       {...otherTableParams}
     />
   );

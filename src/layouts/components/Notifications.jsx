@@ -4,6 +4,8 @@ import { Popover, Button, Badge, Card, Avatar } from 'antd';
 
 import { BellOutlined } from '@ant-design/icons';
 
+import "./Notification.less"
+
 const { Meta } = Card;
 
 const notificationsData = [
@@ -12,23 +14,17 @@ const notificationsData = [
   { avatar: "https://joeschmoe.io/api/v1/random", title: "Notification 3", description: "This is description" },
 ]
 
-const NotificationsDropDown = props => {
+const NotificationsDropDown = ({ deviceType }) => {
   const [visible, setVisible] = useState(false);
 
   return (
     <Popover
       placement="bottomRight"
-      classNames="global-notifications"
+      overlayClassName="global-notifications"
       visible={visible}
       onClick={() => setVisible(!visible)}
       content={
-        <div
-          style={{
-            maxHeight: '600px',
-            width: '400px',
-            overflow: 'auto',
-          }}
-        >
+        <>
           {notificationsData.map((notification, index) => (
             <Card bordered={false} hoverable className='notification-items' key={index}>
             <Meta
@@ -41,7 +37,7 @@ const NotificationsDropDown = props => {
           <Button type="link" block>
             See all
           </Button>
-        </div>
+        </>
       }
       trigger="hover"
     >

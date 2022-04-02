@@ -10,7 +10,6 @@ import store from './store';
 import './config/axios_conf';
 
 import './App.less';
-import './global.less';
 
 /**
  * This is the main thing you need to use to adapt the react-router v6

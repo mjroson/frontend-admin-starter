@@ -75,14 +75,14 @@ const ObjectForm = ({ currentObj, onClose, create, update, formErrors }) => {
         <Switch />
       </Form.Item>
 
-      <Form.Item className="drawer-footer">
+      <div className="drawer-footer">
         <Button onClick={onClose} className="btn-forms-action">
           Cancelar
         </Button>
         <Button htmlType="submit" type="primary" className="btn-forms-action">
           {`${currentObj === null ? 'Crear' : 'Actualizar'}`}
         </Button>
-      </Form.Item>
+      </div>
     </Form>
   );
 };

@@ -1,0 +1,31 @@
+
+
+
+.global-notifications .ant-popover-inner-content {
+    max-height: 600px;
+    width: 400px;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 0px;
+
+    & .notification-items {
+        margin: 5px;
+      }    
+}
+
+
+
+/* Fix mobile general styles */
+@media screen and (max-width: 700px) {
+
+    .global-notifications .ant-popover-inner-content {
+        width: 100vw;
+        max-width: unset;
+        max-height: calc(100vh - 94px);
+    }
+
+}
+
+
+
+  
